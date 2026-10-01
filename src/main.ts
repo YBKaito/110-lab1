@@ -8,14 +8,27 @@ import {
     DayResult
 } from "./day";
 
+import {
+    generateWeather,
+    WeatherResult
+} from "./weather";
 
-// These survive between days
+import {
+    calculateGlassesSold
+} from "./sales";
+
+
+// These variables survive between days
 let day: number = 1;
 let assets: number = 2.00;
 
 
 // Run one day
 function startDay() {
+
+    // Generate weather for the day
+    const weather: WeatherResult = generateWeather();
+
 
     console.log();
     console.log("======================");
@@ -24,19 +37,47 @@ function startDay() {
 
     console.log("Assets: $" + assets.toFixed(2));
 
+    console.log("Weather: " + weather.weather);
+
+
+    // Only show rain chance if it is cloudy
+    if (weather.weather === "Cloudy") {
+
+        console.log(
+            "Chance of Rain: " +
+            weather.rainChance +
+            "%"
+        );
+    }
+
+
+    // Starting Day 3, lemonade costs more to make
     if (day === 3) {
+
         console.log();
+
         console.log(
             "NOTICE: The cost to make lemonade has increased to $0.04 per glass!"
         );
     }
 
+
     console.log();
 
+
+    // Ask player how many glasses, signs, and price
     getDaySetup((setup: DaySetup) => {
 
-        const glassesSold: number = 10;
 
+        // Calculate how many glasses were sold
+        const glassesSold: number =
+            calculateGlassesSold(
+                setup,
+                weather
+            );
+
+
+        // Run all calculations for the day
         const result: DayResult = runDay(
             day,
             assets,
@@ -44,13 +85,20 @@ function startDay() {
             glassesSold
         );
 
+
+        // Carry assets into the next day
         assets = result.assets;
 
+
+        // Move to next day
         day++;
 
+
+        // Start next day
         startDay();
     });
 }
 
-// Start Day 1
+
+// Start the game at Day 1
 startDay();
