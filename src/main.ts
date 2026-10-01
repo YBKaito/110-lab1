@@ -1,6 +1,5 @@
 import {
     getDaySetup,
-    closeSetup,
     DaySetup
 } from "./setup";
 
@@ -10,38 +9,48 @@ import {
 } from "./day";
 
 
-// Variables that survive between days
+// These survive between days
 let day: number = 1;
 let assets: number = 2.00;
 
 
-console.log("DAY " + day);
-console.log("Assets: $" + assets.toFixed(2));
-console.log();
+// Run one day
+function startDay() {
 
+    console.log();
+    console.log("======================");
+    console.log("DAY " + day);
+    console.log("======================");
 
-getDaySetup((setup: DaySetup) => {
+    console.log("Assets: $" + assets.toFixed(2));
 
-    // TEMPORARY
-    // Pretend we sold 10 glasses
-    const glassesSold = 10;
+    if (day === 3) {
+        console.log();
+        console.log(
+            "NOTICE: The cost to make lemonade has increased to $0.04 per glass!"
+        );
+    }
 
+    console.log();
 
-    const result: DayResult = runDay(
-        day,
-        assets,
-        setup,
-        glassesSold
-    );
+    getDaySetup((setup: DaySetup) => {
 
+        const glassesSold: number = 10;
 
-    // Update our assets
-    assets = result.assets;
+        const result: DayResult = runDay(
+            day,
+            assets,
+            setup,
+            glassesSold
+        );
 
+        assets = result.assets;
 
-    // Move to next day
-    day++;
+        day++;
 
+        startDay();
+    });
+}
 
-    closeSetup();
-});
+// Start Day 1
+startDay();

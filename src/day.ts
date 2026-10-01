@@ -25,23 +25,21 @@ export function runDay(
     glassesSold: number
 ): DayResult {
 
-    // -------------------------
-    // Cost per glass
-    // -------------------------
-
     let glassCost: number;
 
     if (day >= 3) {
         glassCost = 0.04;
+
+        if (day === 3) {
+            console.log();
+            console.log("NOTICE: The cost to make lemonade has increased to $0.04 per glass!");
+            console.log();
+        }
     }
     else {
         glassCost = 0.02;
     }
 
-
-    // -------------------------
-    // Expenses
-    // -------------------------
 
     const lemonadeCost =
         setup.glasses * glassCost;
@@ -64,25 +62,11 @@ export function runDay(
         glassesSold * priceInDollars;
 
 
-    // -------------------------
-    // Profit
-    // -------------------------
-
     const profit =
         revenue - totalExpenses;
 
-
-    // -------------------------
-    // Update assets
-    // -------------------------
-
     const newAssets =
         assets + profit;
-
-
-    // -------------------------
-    // Display results
-    // -------------------------
 
     console.log();
     console.log("DAY " + day + " RESULTS");
